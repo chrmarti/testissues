@@ -1,6 +1,7 @@
 {
     perform: true,
     autoAssignees: {
-        emmet: [ chrmarti ]
+        emmet: [ chrmarti ],
+        integrated-terminal: [ chrmarti ]
     }
 }
