@@ -1,5 +1,6 @@
 {
     perform: true,
+    alwaysRequireAssignee: true,
     labelsRequiringAssignee: [ feature-request ],
     autoAssignees: {
         emmet: [ chrmarti ],
