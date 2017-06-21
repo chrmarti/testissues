@@ -1,7 +1,7 @@
 {
     perform: true,
     alwaysRequireAssignee: false,
-    labelsRequiringAssignee: [ feature-request ],
+    labelsRequiringAssignee: [],
     autoAssignees: {
         emmet: [ chrmarti ],
         integrated-terminal: [ chrmarti ]
