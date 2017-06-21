@@ -1,3 +1,5 @@
 {
-    perform: true
+    perform: true,
+    autoAssignees:
+        emmet: [ chrmarti ]
 }
