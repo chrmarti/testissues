@@ -3,7 +3,5 @@
     alwaysRequireAssignee: false,
     labelsRequiringAssignee: [],
     autoAssignees: {
-        emmet: [ chrmarti ],
-        integrated-terminal: [ chrmarti ]
     }
 }
