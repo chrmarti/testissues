@@ -21,7 +21,7 @@
         editor-minimap: [],
         editor-multicursor: [],
         editor-wrapping: [],
-        emmet: [],
+        emmet: [chrmarti, vscodebot],
         error-list: [],
         extensions: [],
         git: [],
