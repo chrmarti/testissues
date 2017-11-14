@@ -11,9 +11,16 @@
         {
             type: 'comment',
             name: 'confirm',
-            action: 'swapLabels',
+            action: 'updateLabels',
             removeLabel: 'confirmation-needed',
             addLabel: 'confirmed'
+        },
+        {
+            type: 'label',
+            name: 'integrated-terminal',
+            allowTriggerByBot: true,
+            action: 'updateLabels',
+            addLabel: 'confirmation-needed'
         },
     ]
 }
