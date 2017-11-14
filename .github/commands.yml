@@ -10,7 +10,9 @@
         {
             type: 'comment',
             name: 'confirm',
-            action: 'confirm'
+            action: 'swapLabels',
+            removeLabel: 'confirmation-needed',
+            addLabel: 'confirmed'
         },
     ]
 }
