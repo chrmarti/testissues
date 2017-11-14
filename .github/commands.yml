@@ -18,7 +18,7 @@
         {
             type: 'label',
             name: 'integrated-terminal',
-            # allowTriggerByBot: true,
+            allowTriggerByBot: true,
             action: 'updateLabels',
             addLabel: 'confirmation-needed'
         },
