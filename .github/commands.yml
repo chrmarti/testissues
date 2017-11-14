@@ -18,6 +18,7 @@
         {
             type: 'label',
             name: 'confirmation-needed',
+            allowTriggerByBot: true,
             action: 'comment',
             comment: 'Our issue tracking requires confirmation by a second community member. Anyone but OP can do so by adding a comment `/confirm`. Please refer to our [guidelines](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) for issue tracking. Thank you for your contributions.'
         },
