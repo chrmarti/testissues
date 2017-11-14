@@ -9,18 +9,24 @@
             comment: 'This issue has been closed automatically because represents a question. Questions are better addressed on [StackOverflow](https://stackoverflow.com/questions/tagged/vscode?sort=votes&pageSize=50), please submit your questions there. Please refer to our [guidelines](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) for filing issues. Thank you for your contributions.'
         },
         {
-            type: 'comment',
-            name: 'confirm',
-            action: 'updateLabels',
-            removeLabel: 'confirmation-needed',
-            addLabel: 'confirmed'
-        },
-        {
             type: 'label',
             name: 'integrated-terminal',
             allowTriggerByBot: true,
             action: 'updateLabels',
             addLabel: 'confirmation-needed'
+        },
+        {
+            type: 'label',
+            name: 'confirmation-needed',
+            action: 'comment',
+            comment: 'Our issue tracking requires confirmation by a second community member. Anyone but OP can do so by adding a comment `/confirm`. Please refer to our [guidelines](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) for issue tracking. Thank you for your contributions.'
+        },
+        {
+            type: 'comment',
+            name: 'confirm',
+            action: 'updateLabels',
+            removeLabel: 'confirmation-needed',
+            addLabel: 'confirmed'
         },
     ]
 }
