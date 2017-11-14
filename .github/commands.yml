@@ -3,9 +3,14 @@
     commands: [
         {
             type: 'label',
-            label: 'question',
+            name: 'question',
             action: 'close',
             comment: 'This issue has been closed automatically because it is asking a question. Questions are better addressed using [StackOverflow](https://stackoverflow.com/questions/tagged/vscode?sort=votes&pageSize=50), please ask your questions there. Please refer to our [guidelines](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) for filing issues. Thank you for your contributions.'
-        }
+        },
+        {
+            type: 'command',
+            name: 'question',
+            action: 'confirm'
+        },
     ]
 }
