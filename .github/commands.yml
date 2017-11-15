@@ -30,7 +30,7 @@
             action: 'close',
             comment: "This issue has been closed because the feature it requests is not within the scope of the product. See also our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
         },
-        # WIP
+        ################### Work in progress ###################
         {
             type: 'label',
             name: 'integrated-terminal',
