@@ -6,7 +6,7 @@
             name: 'question',
             executeForExistingLabels: false,
             action: 'close',
-            comment: 'This issue has been closed automatically because represents a question. Questions are better addressed on [StackOverflow](https://stackoverflow.com/questions/tagged/vscode?sort=votes&pageSize=50), please submit your questions there. Please refer to our [guidelines](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) for filing issues. Thank you for your contributions.'
+            comment: 'This issue has been closed because it represents a question. Questions are better addressed on [StackOverflow](https://stackoverflow.com/questions/tagged/vscode?sort=votes&pageSize=50), please submit these there.\nSee also our [documentation](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) for filing issues.\nThank you for your contributions.'
         },
         {
             type: 'label',
