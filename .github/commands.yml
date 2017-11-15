@@ -14,7 +14,14 @@
             name: 'extension-candidate',
             executeForExistingLabels: false,
             action: 'close',
-            comment: "This issue has been closed because it is not within the scope of the core product, but could be addressed by an extension. The VS Code [Marketplace](https://marketplace.visualstudio.com/vscode) lists existing extensions. See also [Extending VS Code](https://code.visualstudio.com/docs/extensions/overview) and our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
+            comment: "This issue has been closed because it is not within the scope of the core product, but could be addressed by an extension. The [VS Code Marketplace](https://marketplace.visualstudio.com/vscode) lists existing extensions. See also [Extending VS Code](https://code.visualstudio.com/docs/extensions/overview) and our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
+        },
+        {
+            type: 'label',
+            name: 'cannot-reproduce',
+            executeForExistingLabels: false,
+            action: 'close',
+            comment: "This issue has been closed because the problem could not be reproduced either because it is already fixed in later versions of the product or because it requires additional details on how to reproduce it. See also our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
         },
         # WIP
         {
