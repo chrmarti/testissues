@@ -1,13 +1,22 @@
 {
     perform: true,
     commands: [
+        # Proposed
         {
             type: 'label',
             name: 'question',
             executeForExistingLabels: false,
             action: 'close',
-            comment: "This issue has been closed because it represents a question. Questions are better addressed on [StackOverflow](https://stackoverflow.com/questions/tagged/vscode?sort=votes&pageSize=50), please submit these there.\nSee also our [documentation](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) for filing issues.\nThank you for your contributions."
+            comment: "This issue has been closed because it represents a question. Questions are better addressed on [StackOverflow](https://stackoverflow.com/questions/tagged/vscode?sort=votes&pageSize=50). See also our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
         },
+        {
+            type: 'label',
+            name: 'extension-candidate',
+            executeForExistingLabels: false,
+            action: 'close',
+            comment: "This issue has been closed because it is not within the scope of the core product, but could be addressed by an extension. The VS Code Marketplace lists existing extensions. See also [Extending VS Code](https://code.visualstudio.com/docs/extensions/overview) and our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
+        },
+        # WIP
         {
             type: 'label',
             name: 'integrated-terminal',
@@ -20,7 +29,7 @@
             name: 'confirmation-needed',
             allowTriggerByBot: true,
             action: 'comment',
-            comment: 'Our issue tracking requires confirmation by a second community member. Anyone but OP can do so by adding a comment `/confirm`. Please refer to our [guidelines](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) for issue tracking. Thank you for your contributions.'
+            comment: "Our issue tracking requires confirmation by a second community member. Anyone but OP can do so by adding a comment `/confirm`. See also our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
         },
         {
             type: 'comment',
