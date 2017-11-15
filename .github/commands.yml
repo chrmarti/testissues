@@ -14,7 +14,7 @@
             name: 'extension-candidate',
             executeForExistingLabels: false,
             action: 'close',
-            comment: "This issue has been closed because it is not within the scope of the core product, but could be addressed by an extension. The VS Code Marketplace lists existing extensions. See also [Extending VS Code](https://code.visualstudio.com/docs/extensions/overview) and our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
+            comment: "This issue has been closed because it is not within the scope of the core product, but could be addressed by an extension. The VS Code [Marketplace](https://marketplace.visualstudio.com/vscode) lists existing extensions. See also [Extending VS Code](https://code.visualstudio.com/docs/extensions/overview) and our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
         },
         # WIP
         {
