@@ -23,6 +23,13 @@
             action: 'close',
             comment: "This issue has been closed because the problem could not be reproduced either because it is already fixed in later versions of the product or because it requires additional details on how to reproduce it. See also our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
         },
+        {
+            type: 'label',
+            name: 'out-of-scope',
+            executeForExistingLabels: false,
+            action: 'close',
+            comment: "This issue has been closed because the feature or problem it describes is not within the scope of the product. See also our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
+        },
         # WIP
         {
             type: 'label',
