@@ -12,7 +12,7 @@
             type: 'label',
             name: '*extension-candidate',
             action: 'close',
-            comment: "This issue has been closed because it is not within the scope of the core product, but could be addressed by an extension. The [VS Code Marketplace](https://aka.ms/vscodemarketplace) shows all existing extensions. See also [Extending VS Code](https://aka.ms/vscodewritingextensions) and our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
+            comment: "This issue has been closed because it is not within the scope of the core product, but could be addressed by an extension. The [VS Code Marketplace](https://aka.ms/vscodemarketplace) shows all existing extensions and you can get started [writing your own extension](https://aka.ms/vscodewritingextensions) in a few simple steps. See also our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
         },
         {
             type: 'label',
