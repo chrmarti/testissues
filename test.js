@@ -1,3 +1,3 @@
 console.log('HERE');
-// throw 'FAILURE';
+throw 'FAILURE';
 console.log('SUCCESS');
