@@ -4,27 +4,27 @@
         # Proposed
         {
             type: 'label',
-            name: 'question',
+            name: '*question',
             action: 'close',
-            comment: "This issue has been closed because it represents a question. Questions are better addressed on [StackOverflow](https://stackoverflow.com/questions/tagged/vscode?sort=votes&pageSize=50). See also our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
+            comment: "This issue has been closed because it represents a question. Questions are better addressed on [StackOverflow](https://aka.ms/vscodestackoverflow). See also our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
         },
         {
             type: 'label',
-            name: 'extension-candidate',
+            name: '*extension-candidate',
             action: 'close',
-            comment: "This issue has been closed because it is not within the scope of the core product, but could be addressed by an extension. The [VS Code Marketplace](https://marketplace.visualstudio.com/vscode) shows all existing extensions. See also [Extending VS Code](https://code.visualstudio.com/docs/extensions/overview) and our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
+            comment: "This issue has been closed because it is not within the scope of the core product, but could be addressed by an extension. The [VS Code Marketplace](https://aka.ms/vscodemarketplace) shows all existing extensions. See also [Extending VS Code](https://aka.ms/vscodewritingextensions) and our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
         },
         {
             type: 'label',
-            name: 'not-reproducible',
+            name: '*not-reproducible',
             action: 'close',
-            comment: "This issue has been closed because the problem could not be reproduced either because it is already fixed in later versions of the product or because it requires additional details on how to reproduce it. See also our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
+            comment: "This issue has been closed because the problem could not be reproduced either because it is already fixed in later versions of the product or because it requires additional details on how to reproduce it. See also our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
         },
         {
             type: 'label',
-            name: 'out-of-scope',
+            name: '*out-of-scope',
             action: 'close',
-            comment: "This issue has been closed because the feature it requests is not within the scope of the product. See also our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
+            comment: "This issue has been closed because the feature it requests is not within the scope of the product. See also our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
         },
         {
             type: 'comment',
@@ -34,10 +34,10 @@
         },
         {
             type: 'label',
-            name: 'duplicate',
+            name: '*duplicate',
             allowTriggerByBot: true,
             action: 'close',
-            comment: "This issue has been closed because it is already tracked by another issue. See also our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
+            comment: "This issue has been closed because it is already tracked by another issue. See also our [GitHub issues](https://aka.ms/vscodeissuesearch) to search for existing issues and our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
         },
         ################### Work in progress ###################
         {
@@ -49,10 +49,10 @@
         },
         {
             type: 'label',
-            name: 'confirmation-needed',
+            name: '*confirmation-needed',
             allowTriggerByBot: true,
             action: 'comment',
-            comment: "Our issue tracking requires confirmation by a second community member. Anyone but OP can do so by adding a comment `/confirm`. See also our [issue tracking](https://github.com/Microsoft/vscode/blob/master/CONTRIBUTING.md) guidelines.\n\nThank you for your contributions."
+            comment: "Our issue tracking requires confirmation by a second community member. Anyone but OP can do so by adding a comment `/confirm`. See also our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
         },
         {
             type: 'comment',
