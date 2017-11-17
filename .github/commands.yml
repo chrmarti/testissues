@@ -30,7 +30,7 @@
             type: 'comment',
             name: 'duplicate',
             action: 'updateLabels',
-            addLabel: 'duplicate'
+            addLabel: '*duplicate'
         },
         {
             type: 'label',
@@ -45,7 +45,7 @@
             name: 'integrated-terminal',
             allowTriggerByBot: true,
             action: 'updateLabels',
-            addLabel: 'confirmation-needed'
+            addLabel: '*confirmation-needed'
         },
         {
             type: 'label',
@@ -58,7 +58,7 @@
             type: 'comment',
             name: 'confirm',
             action: 'updateLabels',
-            removeLabel: 'confirmation-needed',
+            removeLabel: '*confirmation-needed',
             addLabel: 'confirmed'
         },
     ]
