@@ -5,6 +5,7 @@
         {
             type: 'label',
             name: '*question',
+            executeForExistingLabels: true,
             action: 'close',
             comment: "This issue has been closed because it represents a question. Questions are better addressed on [StackOverflow](https://aka.ms/vscodestackoverflow). See also our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
         },
