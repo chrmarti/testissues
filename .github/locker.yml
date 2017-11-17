@@ -1,4 +1,5 @@
 {
-    daysAfterClose: 45,
+    daysAfterClose: 3,
+    daysSinceLastUpdate: 1,
     perform: true
 }
