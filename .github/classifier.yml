@@ -1,5 +1,6 @@
 {
     perform: true,
+    delay: 5, # seconds
     alwaysRequireAssignee: false,
     labelsRequiringAssignee: [],
     autoAssignees: {
