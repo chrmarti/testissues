@@ -1,4 +1,5 @@
 {
     perform: true,
+    delay: 5, # seconds
     assignees: [ chrmarti ]
 }
