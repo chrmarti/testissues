@@ -1,4 +1,4 @@
 {
-    perform: false,
+    perform: true,
     assignees: [ chrmarti ]
 }
