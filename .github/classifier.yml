@@ -1,5 +1,5 @@
 {
-    perform: false,
+    perform: true,
     delay: 5, # seconds
     alwaysRequireAssignee: false,
     labelsRequiringAssignee: [],
