@@ -9,7 +9,7 @@
         css-less-sass: [],
         debug: {
             assignees: [chrmarti],
-            add_label: false
+            assignLabel: false
         },
         editor: [],
         editor-brackets: [],
