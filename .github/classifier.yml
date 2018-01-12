@@ -7,7 +7,10 @@
         accessibility: [],
         api: [],
         css-less-sass: [],
-        debug: [],
+        debug: {
+            assignees: [chrmarti],
+            add_label: false
+        },
         editor: [],
         editor-brackets: [],
         editor-clipboard: [],
@@ -22,7 +25,7 @@
         editor-minimap: [],
         editor-multicursor: [],
         editor-wrapping: [],
-        emmet: [],
+        emmet: [chrmarti],
         error-list: [],
         extensions: [],
         git: [],
