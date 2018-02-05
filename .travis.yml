@@ -2,9 +2,9 @@ language: node_js
 node_js:
   - "node"
 env:
-  - fail=true
-  - fail=true
-  - label=hygiene
+  - no=1 fail=false
+  - no=2 fail=false
+  - no=3 label=hygiene
 notifications:
   email: false
   webhooks:
