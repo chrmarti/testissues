@@ -3,7 +3,7 @@ node_js:
   - "node"
 env:
   - no=1 fail=true
-  - no=2 fail=true
+  - no=2 fail=false
   - no=3 label=hygiene
 notifications:
   email: false
