@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "node"
 env:
-  - no=1 fail=true
+  - no=1 fail=false
   - no=2 fail=true
   - no=3 fail=false label=hygiene
 notifications:
