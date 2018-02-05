@@ -1,3 +1,5 @@
 console.log('HERE');
-throw 'FAILURE';
+if (process.env.fail === 'true') {
+	throw 'FAILURE';
+}
 console.log('SUCCESS');
