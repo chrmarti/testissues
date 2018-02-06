@@ -1,5 +1,5 @@
 {
-    newReleaseLabel: 'newrelease',
+    newReleaseLabel: 'new release',
     action: 'remove',
     perform: true
 }
