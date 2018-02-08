@@ -62,5 +62,11 @@
             removeLabel: '*confirmation-needed',
             addLabel: 'confirmed'
         },
+        {
+            type: 'comment',
+            name: 'findDuplicates',
+            action: 'comment',
+            comment: 'Thanks for submitting this issue. Maybe there already is an issue covering the same, like:\n${potentialDuplicates}'
+        },
     ]
 }
