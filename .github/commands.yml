@@ -58,7 +58,7 @@
         {
             type: 'comment',
             name: 'confirm',
-            allowUsers: ['noquiteme'],
+            allowUsers: ['notquiteme'],
             action: 'updateLabels',
             removeLabel: '*confirmation-needed',
             addLabel: 'confirmed'
