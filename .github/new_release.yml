@@ -1,5 +1,5 @@
 {
-    newReleaseLabel: 'new release',
+    newReleaseLabel: 'new release2',
     newReleaseColor: '006b75',
     daysAfterRelease: 24,
     perform: true
