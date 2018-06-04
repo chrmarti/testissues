@@ -1,5 +1,0 @@
-{
-    newReleaseLabel: 'newrelease',
-    action: 'add',
-    perform: true
-}
