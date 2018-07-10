@@ -67,7 +67,7 @@
             name: 'needsMoreInfo',
             action: 'updateLabels',
             addLabel: 'needs more info',
-            comment: "Thanks for creating this issue! We figured it's missing some basic information or in some other way doesn't follow our [issue reporting](https://aka.ms/vscodeissuereporting) guidlines. Please take some time to consult these and update this issue.\n\nHappy Coding!"
+            comment: "Thanks for creating this issue! We figured it's missing some basic information or in some other way doesn't follow our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines. Please take the time to review these and update the issue.\n\nHappy Coding!"
         },
         ################### Work in progress ###################
         {
