@@ -1,6 +1,6 @@
 {
-    daysAfterClose: 1,
-    daysSinceLastUpdate: 1,
+    daysAfterClose: 0,
+    daysSinceLastUpdate: 0,
     ignoredLabels: ['*out-of-scope'],
     perform: true
 }
