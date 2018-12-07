@@ -53,8 +53,16 @@
         {
             type: 'comment',
             name: 'confirm',
+            allowUsers: ['cleidigh', 'usernamehw'],
             action: 'updateLabels',
             addLabel: 'confirmed'
+        },
+        {
+            type: 'comment',
+            name: 'unconfirm',
+            allowUsers: ['cleidigh', 'usernamehw'],
+            action: 'updateLabels',
+            addLabel: 'unconfirmed'
         },
         {
             type: 'comment',
