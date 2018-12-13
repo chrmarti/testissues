@@ -2,6 +2,12 @@
     perform: true,
     commands: [
         {
+            type: 'comment',
+            name: 'question',
+            action: 'updateLabels',
+            addLabel: '*question'
+        },
+        {
             type: 'label',
             name: '*question',
             action: 'close',
