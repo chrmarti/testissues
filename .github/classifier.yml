@@ -43,7 +43,7 @@
         editor-symbols: [],
         editor-textbuffer: [],
         editor-wrapping: [],
-        emmet: [],
+        emmet: [chrmarti, notquiteme],
         error-list: [],
         explorer-custom: [],
         extension-host: [],
