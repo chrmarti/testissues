@@ -1,5 +1,5 @@
 {
     insidersLabel: 'insiders2',
-    action: 'remove',
+    action: 'add',
     perform: true
 }
