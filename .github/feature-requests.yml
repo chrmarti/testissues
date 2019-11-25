@@ -1,0 +1,11 @@
+{
+  milestone: 1,
+  onLabel: {
+    delay: 5,
+    perform: true
+  },
+  onMilestone: {
+    comment: 'Your feature request is now a backlog candidate.',
+    perform: true
+  }
+}
