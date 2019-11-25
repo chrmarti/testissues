@@ -1,5 +1,5 @@
 {
-  milestone: 1,
+  milestone: 2,
   onLabel: {
     delay: 5,
     perform: true
