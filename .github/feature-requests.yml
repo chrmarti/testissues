@@ -1,10 +1,10 @@
 {
   candidateMilestone: {
-    id: 2,
+    number: 2,
     name: 'Backlog Candidates'
   },
   approvedMilestone: {
-    id: 1,
+    number: 1,
     name: 'Backlog'
   },
   onLabeled: {
