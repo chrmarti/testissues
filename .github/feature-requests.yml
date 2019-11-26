@@ -1,11 +1,27 @@
 {
-  milestone: 2,
-  onLabel: {
+  candidateMilestone: {
+    id: 2,
+    name: 'Backlog Candidates'
+  },
+  approvedMilestone: {
+    id: 1,
+    name: 'Backlog'
+  },
+  onLabeled: {
     delay: 5,
     perform: true
   },
-  onMilestone: {
-    comment: 'Your feature request is now a backlog candidate.',
+  onCandidateMilestoned: {
+    candidatesComment: 'Your feature request is now a backlog candidate.',
     perform: true
+  },
+  onMonitorUpvotes: {
+    upvoteThreshold: 1,
+    acceptedComment: 'Your feature request gather sufficient upvotes and has been moved to the backlog.',
+    perform: false
+  },
+  onMonitorDaysOnCandidateMilestone: {
+    daysOnMilestone: 0, // for testing purposes
+    declinedComment: 'In the last 60 days your feature request did not gather sufficient interest from the community.',
+    perform: false
   }
-}
