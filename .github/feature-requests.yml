@@ -1,4 +1,7 @@
 {
+  typeLabel: {
+    name: 'feature-request'
+  }
   candidateMilestone: {
     number: 2,
     name: 'Backlog Candidates'
