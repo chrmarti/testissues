@@ -21,7 +21,7 @@
   onMonitorUpvotes: {
     upvoteThreshold: 1,
     acceptedComment: 'Your feature request gather sufficient upvotes and has been moved to the backlog.',
-    perform: false
+    perform: true
   },
   onMonitorDaysOnCandidateMilestone: {
     daysOnMilestone: 0,
