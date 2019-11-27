@@ -24,7 +24,7 @@
     perform: false
   },
   onMonitorDaysOnCandidateMilestone: {
-    daysOnMilestone: 0, // for testing purposes
+    daysOnMilestone: 0,
     declinedComment: 'In the last 60 days your feature request did not gather sufficient interest from the community.',
     perform: false
   }
