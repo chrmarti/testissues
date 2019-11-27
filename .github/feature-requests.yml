@@ -15,17 +15,17 @@
     perform: true
   },
   onCandidateMilestoned: {
-    candidatesComment: 'Your feature request is now a backlog candidate.',
+    candidatesComment: 'This feature request is now a backlog candidate. Read more about the life-cycle of feature requests [here](https://aka.ms/vscode-issue-lifecycle).',
     perform: true
   },
   onMonitorUpvotes: {
     upvoteThreshold: 1,
-    acceptedComment: 'Your feature request gather sufficient upvotes and has been moved to the backlog.',
+    acceptedComment: 'This feature request gathered a sufficient number of upvotes and is now on the backlog. Read more about the life-cycle of feature requests [here](https://aka.ms/vscode-issue-lifecycle).',
     perform: true
   },
   onMonitorDaysOnCandidateMilestone: {
     daysOnMilestone: 0,
-    declinedComment: 'In the last 60 days your feature request did not gather sufficient interest from the community.',
+    declinedComment: 'This feature request has not gathered a sufficient number of upvotes and is now closed. Read more about the life-cycle of feature requests [here](https://aka.ms/vscode-issue-lifecycle).',
     perform: false
   }
 }
