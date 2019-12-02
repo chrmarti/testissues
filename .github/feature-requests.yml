@@ -28,7 +28,7 @@
     warningPeriod: 0,
     numberOfCommentsToPreventAutomaticRejection: 10,
     rejectionComment: 'This feature request has not gathered a sufficient number of upvotes and is now closed. Read more about the life-cycle of feature requests [here](https://aka.ms/vscode-issue-lifecycle).',
-    warningComment: 'This feature request has not yet sufficient upvotes. It will be rejected in 10 days.',
+    warningComment: 'This feature request has not yet sufficient upvotes. It will be rejected in 10 days. Read more about the life-cycle of feature requests [here](https://aka.ms/vscode-issue-lifecycle).',
     perform: true
   }
 }
