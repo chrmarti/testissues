@@ -15,20 +15,20 @@
     perform: true
   },
   onCandidateMilestoned: {
-    candidatesComment: 'This feature request is now a backlog candidate. Read more about the life-cycle of feature requests [here](https://aka.ms/vscode-issue-lifecycle).',
+    candidatesComment: "This feature request is now a candidate for our backlog. If in the next 60 days it receives more than 20 community upvotes we will move it to our backlog. If not, we will close it. To learn more about how we handle feature requests, please see our [documentation](https://aka.ms/vscode-issue-lifecycle).\n\nHappy Coding!",
     perform: true
   },
   onMonitorUpvotes: {
     upvoteThreshold: 1,
-    acceptanceComment: 'This feature request gathered a sufficient number of upvotes and is now on the backlog. Read more about the life-cycle of feature requests [here](https://aka.ms/vscode-issue-lifecycle).',
+    acceptanceComment: ":slightly_smiling_face: This feature request received a sufficient number of community upvotes and we moved it to our backlog. To learn more about how we handle feature requests, please see our [documentation](https://aka.ms/vscode-issue-lifecycle).\n\nHappy Coding!",
     perform: true
   },
   onMonitorDaysOnCandidateMilestone: {
     daysOnMilestone: 0,
     warningPeriod: 0,
     numberOfCommentsToPreventAutomaticRejection: 10,
-    rejectionComment: 'This feature request has not gathered a sufficient number of upvotes and is now closed. Read more about the life-cycle of feature requests [here](https://aka.ms/vscode-issue-lifecycle).',
-    warningComment: 'This feature request has not yet sufficient upvotes. It will be rejected in 10 days. Read more about the life-cycle of feature requests [here](https://aka.ms/vscode-issue-lifecycle).',
+    rejectionComment: ":slightly_frowning_face: In the last 60 days, this feature request has received less than 20 community upvotes and we closed it. Still a big Thank You to you for taking the time to create this issue! To learn more about how we handle feature requests, please see our [documentation](https://aka.ms/vscode-issue-lifecycle).\n\nHappy Coding!",
+    warningComment: "This feature request has not yet received the 20 community upvotes it takes to make to our backlog. 10 days to go. To learn more about how we handle feature requests, please see our [documentation](https://aka.ms/vscode-issue-lifecycle).\n\nHappy Coding",
     perform: true
   }
 }
