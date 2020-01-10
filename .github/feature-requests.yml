@@ -15,7 +15,7 @@
     perform: true
   },
   onCandidateMilestoned: {
-    candidatesComment: "This feature request is now a candidate for our backlog. If in the next 60 days it receives more than 20 community upvotes we will move it to our backlog. If not, we will close it. To learn more about how we handle feature requests, please see our [documentation](https://aka.ms/vscode-issue-lifecycle).\n\nHappy Coding!",
+    candidatesComment: "This feature request is now a candidate for our backlog. If it receives more than 20 community upvotes in the next 60 days we will move it to our backlog. If not, we will close it. To learn more about how we handle feature requests, please see our [documentation](https://aka.ms/vscode-issue-lifecycle).\n\nHappy Coding!",
     perform: true
   },
   onMonitorUpvotes: {
