@@ -15,5 +15,5 @@ jobs:
       - name: Run Needs More Info
         uses: ./needs-more-info
         with:
-          matcher: '\d+\.\d+\.\d+|insider|\b1\.\d\d\b'
+          matcher: '\b(\d\.\d{2,3}\.\d|insiders?|1\.\d\d)\b'
           label: ~needs more info
