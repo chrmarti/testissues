@@ -1,0 +1,15 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - release/*
+
+jobs:
+  here:
+    name: HERE
+    runs-on: ubuntu-latest
+    steps:
+      - name: HERE
+        run: echo "HERE"
