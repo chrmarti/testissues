@@ -3,12 +3,11 @@ name: "Build Chat"
 on:
   workflow_run:
     workflows:
-      - CI
+      - '**'
     types:
       - completed
     branches:
-      - master
-      - release/*
+      - '**'
 
 jobs:
   main:
