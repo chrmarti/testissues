@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: HERE
-        run: echo FAIL ; exit 1
+        run: echo PASS
