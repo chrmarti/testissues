@@ -10,5 +10,6 @@ jobs:
     name: HERE
     runs-on: windows-latest
     steps:
-      - name: HERE
-        run: docker info
+      - run: "& 'C:\\Program Files\\Docker\\Docker\\DockerCli.exe' -h"
+      - run: "& 'C:\\Program Files\\Docker\\Docker\\DockerCli.exe' -SwitchLinuxEngine"
+      - run: docker info
