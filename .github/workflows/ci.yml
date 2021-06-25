@@ -6,10 +6,16 @@ on:
       - '**'
 
 jobs:
-  here:
-    name: HERE
-    runs-on: windows-latest
+  stuff:
+    runs-on: ubuntu-latest
     steps:
-      - run: "& 'C:\\Program Files\\Docker\\Docker\\DockerCli.exe' -h"
-      - run: "& 'C:\\Program Files\\Docker\\Docker\\DockerCli.exe' -SwitchLinuxEngine"
-      - run: docker info
+      - name: Package VSIX
+        run: |
+          VSIX="test-${GITHUB_SHA:0:8}.txt"
+          echo test > $VSIX
+          echo "VSIX=$VSIX" | tee -a $GITHUB_ENV
+      - name: Store VSIX
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.VSIX }}
+          path: ${{ env.VSIX }}
