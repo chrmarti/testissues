@@ -1,4 +1,4 @@
-name: Build Chat
+name: Release VSIX
 
 on:
   push:
