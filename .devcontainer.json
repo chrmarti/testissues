@@ -1,7 +1,0 @@
-{
-    "hostRequirements": {
-    "storage": "64gb",
-    "memory": "64gb"
-  },
-  "image": "node"
-}
