@@ -1,3 +1,7 @@
 {
+	"image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:0-16-bullseye",
+	"features": {
+		"github": true
+	},
 	"userEnvProbe": "loginInteractiveShell"
 }
