@@ -1,0 +1,25 @@
+name: Release VSIX
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Package VSIX
+        run: |
+          VSIX="test-${GITHUB_SHA:0:8}.txt"
+          echo "VSIX=$VSIX" | tee -a $GITHUB_ENV
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@b9571484721e8187f1fd08147b497129f8972c74
+        with:
+          workflow: ci.yml
+          workflow_conclusion: success
+          commit: ${{ env.GITHUB_SHA }}
+          name: ${{ env.VSIX }}
+      - name: ls
+        run: |
+          ls -la $VSIX
