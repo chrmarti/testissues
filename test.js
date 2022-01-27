@@ -4,3 +4,8 @@ if (process.env.fail === 'true') {
 }
 console.log('SUCCESS');
 
+function foo() {
+	console.log('in foo');
+}
+
+foo();
