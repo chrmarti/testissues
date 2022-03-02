@@ -3,8 +3,8 @@ pool:
 
 resources:
   pipelines:
-  - pipeline: adoBuild
-    source: ado-build
+  - pipeline: testissuesBuild
+    source: testissues-build
     trigger: 
       branches:
         include:
