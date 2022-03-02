@@ -1,0 +1,16 @@
+pool:
+  vmImage: "ubuntu-latest"
+
+trigger:
+  branches: none
+pr: none
+
+resources:
+  pipelines:
+  - pipeline: adoBuild
+    source: ado-build
+    trigger: true
+
+steps:
+- script: |
+    echo HERE2

@@ -1,0 +1,13 @@
+pool:
+  vmImage: "ubuntu-latest"
+
+trigger:
+  branches:
+    include:
+      - 'main'
+      - 'release/*'
+pr: none
+
+steps:
+- script: |
+    echo HERE
