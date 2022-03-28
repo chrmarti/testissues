@@ -14,5 +14,39 @@ resources:
           - 'release/*'
 
 steps:
-- script: |
-    echo HERE2
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "16.x"
+
+  - task: AzureKeyVault@1
+    displayName: "Azure Key Vault: Get Secrets"
+    inputs:
+      azureSubscription: "VS-Code-Development-GitHub-Automation"
+      KeyVaultName: vscode-probot
+      SecretsFilter: "monacotools-builds-user,monacotools-builds-token,slack-api-token,azure-storage-connection"
+
+  - script: |
+      echo HERE2
+      echo "$(monacotools-builds-user)"
+      echo "$(resources.triggeringAlias)"
+      echo "$(resources.triggeringCategory)"
+      echo $(resources.pipeline.testissuesBuild.pipelineID)
+      echo $(resources.pipeline.testissuesBuild.runName)
+      echo $(resources.pipeline.testissuesBuild.runID)
+      echo $(resources.pipeline.testissuesBuild.runURI)
+      echo $(resources.pipeline.testissuesBuild.sourceBranch)
+      echo $(resources.pipeline.testissuesBuild.sourceCommit)
+      echo $(resources.pipeline.testissuesBuild.sourceProvider)
+      echo $(resources.pipeline.testissuesBuild.requestedFor)
+      echo $(resources.pipeline.testissuesBuild.requestedForID)
+      ls
+      # ado_user="$(monacotools-builds-user)" \
+      # ado_pass="$(monacotools-builds-token)" \
+      # slack_token="$(slack-api-token)" \
+      # storage_connection_string="$(azure-storage-connection)" \
+      # workflow_run_url="$(???)" \
+      # notify_authors="false" \
+      # notification_channel="bottest" \
+      # log_channel="bot-log" \
+      # console_log="true" \
+      # ./build-chat/index.ts

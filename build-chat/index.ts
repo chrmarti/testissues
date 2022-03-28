@@ -18,7 +18,7 @@ export notify_authors=false
 export notification_channel=bottest
 export log_channel=bot-log
 export console_log=true
-./index.ts
+./build-chat/index.ts
 */
 
 export async function run() {
