@@ -27,6 +27,7 @@ steps:
 
   - script: |
       npm i
+    displayName: NPM Install
 
   - script: |
       ado_user="$(monacotools-builds-user)" \
@@ -38,4 +39,5 @@ steps:
       notification_channel="bottest" \
       log_channel="bot-log" \
       console_log="true" \
-      ./build-chat/index.ts
+      ./node_modules/.bin/ts-node ./build-chat/index.ts
+    displayName: Build Chat
