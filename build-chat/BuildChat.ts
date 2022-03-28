@@ -6,45 +6,21 @@
 import { Octokit } from '@octokit/rest'
 import { WebClient } from '@slack/web-api'
 import { BlobServiceClient } from '@azure/storage-blob'
+import * as request from 'request-promise';
 
-let safeLog: (message: string, ...args: any[]) => void // utils.ts needs GITHUB_REPOSITORY set below.
-
-if (require.main === module) {
-	process.env.GITHUB_REPOSITORY = 'microsoft/vscode-remote-containers'
-	safeLog = require('../common/utils').safeLog
-	const auth = `token ${process.env.GITHUB_TOKEN}`
-	const octokit = new Octokit({ auth })
-	const workflowUrl =
-		'https://api.github.com/repos/microsoft/vscode-remote-containers/actions/runs/552662814'
-	const options: Options = {
-		slackToken: process.env.SLACK_TOKEN,
-		storageConnectionString: process.env.STORAGE_CONNECTION_STRING,
-		notifyAuthors: true,
-		notificationChannel: 'bottest',
-		logChannel: 'bot-log',
-	}
-	;(async () => {
-		await buildChat(octokit, workflowUrl, options)
-	})().then(undefined, safeLog)
-} else {
-	safeLog = require('../common/utils').safeLog
+export const safeLog = (message: string, ...args: (string | number | string[])[]): void => {
+	const clean = (val: any) => ('' + val).replace(/:|#/g, '')
+	console.log(clean(message), ...args.map(clean))
 }
 
 export interface Options {
+	adoAuth?: { user: string; pass: string }
 	slackToken?: string
 	storageConnectionString?: string
 	notifyAuthors?: boolean
 	notificationChannel?: string
 	logChannel?: string
-}
-
-export async function buildChat(octokit: Octokit, workflowUrl: string, options: Options = {}) {
-	safeLog(workflowUrl)
-	const parts = workflowUrl.split('/')
-	const owner = parts[parts.length - 5]
-	const repo = parts[parts.length - 4]
-	const runId = parseInt(parts[parts.length - 1], 10)
-	await handleNotification(octokit, owner, repo, runId, options)
+	consoleLog?: boolean;
 }
 
 interface UserOrChannel {
@@ -56,14 +32,8 @@ interface Team {
 	members: UserOrChannel[]
 }
 
-async function handleNotification(
-	octokit: Octokit,
-	owner: string,
-	repo: string,
-	runId: number,
-	options: Options,
-) {
-	const results = await buildComplete(octokit, owner, repo, runId, options)
+export async function buildChat(octokit: Octokit, buildUrl: string, options: Options = {}) {
+	const results = await buildComplete(octokit, buildUrl, options)
 	if (options.slackToken && (results.logMessages.length || results.messages.length)) {
 		const web = new WebClient(options.slackToken)
 		const memberships = await listAllMemberships(web)
@@ -131,7 +101,7 @@ async function handleNotification(
 			}
 		}
 	}
-	if (!options.slackToken) {
+	if (options.consoleLog) {
 		for (const message of results.logMessages) {
 			safeLog(message)
 		}
@@ -141,125 +111,149 @@ async function handleNotification(
 	}
 }
 
-async function buildComplete(octokit: Octokit, owner: string, repo: string, runId: number, options: Options) {
-	safeLog(`buildComplete: https://github.com/${owner}/${repo}/actions/runs/${runId}`)
-	const buildResult = (
-		await octokit.actions.getWorkflowRun({
-			owner,
-			repo,
-			run_id: runId,
-		})
-	).data
-	const parts = buildResult.workflow_url.split('/')
-	const workflowId = parseInt(parts[parts.length - 1], 10)
-	const build = (
-		await octokit.actions.getWorkflow({
-			owner,
-			repo,
-			workflow_id: workflowId,
-		})
-	).data
-
-	const buildResults = (
-		await octokit.actions.listWorkflowRuns({
-			owner,
-			repo,
-			workflow_id: workflowId,
-			branch: buildResult.head_branch || undefined,
-			per_page: 5, // More returns 502s.
-		})
-	).data.workflow_runs.filter(
-		(run) => run.status === 'completed' && conclusions.indexOf(run.conclusion || 'success') !== -1,
-	)
-	buildResults.sort((a, b) => -a.created_at.localeCompare(b.created_at))
-
-	const currentBuildIndex = buildResults.findIndex((build) => build.id === buildResult.id)
-	if (currentBuildIndex === -1) {
-		safeLog('Build not on first page. Terminating.')
-		safeLog(
-			JSON.stringify(buildResults.map(({ id, status, conclusion }) => ({ id, status, conclusion }))),
-		)
-		throw new Error('Build not on first page. Terminating.')
-	}
-	const slicedResults = buildResults.slice(currentBuildIndex, currentBuildIndex + 2)
-	const builds = slicedResults.map<Build>((build, i, array) => ({
-		data: build,
-		previousSourceVersion: i < array.length - 1 ? array[i + 1].head_sha : undefined,
-		authors: [],
-		buildHtmlUrl: build.html_url,
-		changesHtmlUrl: '',
-	}))
-	const logMessages = builds
-		.slice(0, 1)
-		.map(
-			(build) =>
-				`Id: ${build.data.id} | Repository: ${owner}/${repo} | Branch: ${build.data.head_branch} | Conclusion: ${build.data.conclusion} | Created: ${build.data.created_at} | Updated: ${build.data.updated_at}`,
-		)
-	const transitionedBuilds = builds.filter(
-		(build, i, array) => i < array.length - 1 && transitioned(build, array[i + 1]),
-	)
-	await Promise.all(
-		transitionedBuilds.map(async (build) => {
-			if (build.previousSourceVersion) {
-				const cmp = await compareCommits(
-					octokit,
-					owner,
-					repo,
-					build.previousSourceVersion,
-					build.data.head_sha,
-				)
-				const commits = cmp.data.commits
-				const authors = new Set<string>([
-					...commits.map((c: any) => c.author.login),
-					...commits.map((c: any) => c.committer.login),
-				])
-				authors.delete('web-flow') // GitHub Web UI committer
-				build.authors = [...authors]
-				build.changesHtmlUrl = `https://github.com/${owner}/${repo}/compare/${build.previousSourceVersion.substr(
-					0,
-					7,
-				)}...${build.data.head_sha.substr(0, 7)}` // Shorter than: cmp.data.html_url
-			}
-		}),
-	)
-	const vscode = repo === 'vscode'
-	const name = vscode ? `VS Code ${build.name} Build` : build.name
-	// TBD: `Requester: ${vstsToSlackUser(build.requester, build.degraded)}${pingBenForSmokeTests && releaseBuild && build.result === 'partiallySucceeded' ? ' | Ping: @bpasero' : ''}`
-	const accounts = await readAccounts(options.storageConnectionString)
-	const githubAccountMap = githubToAccounts(accounts)
-	const messages = transitionedBuilds.map((build) => {
-		const issueBody = encodeURIComponent(`Build: ${build.buildHtmlUrl}\nChanges: ${build.changesHtmlUrl}`)
-		const issueTitle = encodeURIComponent('Build failure')
-		const createIssueLink = `https://github.com/microsoft/vscode/issues/new?body=${issueBody}&title=${issueTitle}`
-		return {
-			text: `${name}
-Result: ${build.data.conclusion} | Repository: ${owner}/${repo} | Branch: ${
-				build.data.head_branch
-			} | Authors: ${
-				githubToSlackUsers(githubAccountMap, build.authors, build.degraded).sort().join(', ') ||
-				`None (rebuild)`
-			}
-Build: ${build.buildHtmlUrl}
-Create Issue: ${createIssueLink}
-Changes: ${build.changesHtmlUrl}`,
-			slackAuthors: build.authors.map((a) => githubAccountMap[a]?.slack).filter((a) => !!a),
+interface BuildResult {
+	_links: {
+		web: {
+			href: string;
+		},
+		timeline: {
+			href: string;
 		}
-	})
-	return { logMessages, messages }
+	}
+	id: number,
+	url: string;
+	status: string;
+	result: string;
+	queueTime: string;
+	startTime: string;
+	finishTime: string;
+	sourceBranch: string;
+	sourceVersion: string;
+	repository: {
+		id: string;
+		type: string;
+	};
+	requestedBy: User,
+	definition: {
+		id: number;
+		name: string;
+		url: string;
+	};
 }
 
-const conclusions = ['success', 'failure']
+interface ListOf<T> {
+	count: number;
+	value: T[];
+}
+
+interface User {
+	displayName: string;
+	uniqueName: string;
+}
+
+interface Build {
+	id: number;
+	repository: string;
+	branch: string;
+	sourceVersion: string;
+	previousSourceVersion?: string;
+	result: string;
+	degraded?: boolean;
+	authors: string[];
+	requester: User;
+	buildHtmlUrl: string;
+	changesHtmlUrl: string;
+	queueTime: string;
+	startTime: string;
+	finishTime: string;
+}
+
+const results = ['succeeded', 'partiallySucceeded', 'failed']
+
+async function buildComplete(octokit: Octokit, buildUrl: string, options: Options = {}) {
+	safeLog(`buildComplete: ${buildUrl}`);
+	const monacotools = buildUrl.startsWith('https://monacotools.visualstudio.com/') || buildUrl.startsWith('https://dev.azure.com/monacotools/');
+	const lastSegmentIndex = buildUrl.lastIndexOf('/');
+	const buildsApiUrl = buildUrl.substr(0, lastSegmentIndex);
+	const buildResult: BuildResult = await request({ uri: buildUrl, auth: options.adoAuth, json: true });
+	if (!buildResult.sourceBranch || (
+		buildResult.sourceBranch !== 'refs/heads/main'
+		&& !buildResult.sourceBranch.startsWith('refs/heads/release/')
+		&& buildResult.sourceBranch !== 'refs/heads/remote-hackathon'
+	)) {
+		return { logMessages: [], messages: [] };
+	}
+	const buildQuery = `${buildsApiUrl}?$top=10&maxTime=${buildResult.finishTime}&definitions=${buildResult.definition.id}&branchName=${buildResult.sourceBranch}&resultFilter=${results.join(',')}&api-version=5.0-preview.4`;
+	const buildResults: ListOf<BuildResult> = await request({ uri: buildQuery, auth: options.adoAuth, json: true });
+	buildResults.value.sort((a, b) => -a.startTime.localeCompare(b.startTime)); // TODO: Retry using queryOrder parameter.
+	const currentBuildIndex = buildResults.value.findIndex(build => build.id === buildResult.id);
+	if (currentBuildIndex === -1) {
+		return { logMessages: [], messages: [] };
+	}
+	const slicedResults = buildResults.value.slice(currentBuildIndex, currentBuildIndex + 2);
+	const builds = slicedResults
+		.map<Build>((build, i, array) => ({
+			id: build.id,
+			repository: build.repository.id,
+			branch: build.sourceBranch.substr('refs/heads/'.length),
+			sourceVersion: build.sourceVersion,
+			previousSourceVersion: i < array.length - 1 ? array[i + 1].sourceVersion : undefined,
+			result: build.result,
+			authors: [],
+			requester: build.requestedBy,
+			buildHtmlUrl: build._links.web.href,
+			changesHtmlUrl: '',
+			queueTime: build.queueTime,
+			startTime: build.startTime,
+			finishTime: build.finishTime,
+		}));
+	const logMessages = builds.slice(0, 1)
+		.map(build => `Id: ${build.id} | Branch: ${build.branch} | Result: ${build.result} | Queue: ${build.queueTime} | Start: ${build.startTime} | Finish: ${build.finishTime}`);
+	const transitionedBuilds = builds.filter((build, i, array) => i < array.length - 1 && transitioned(build, array[i + 1]));
+	await Promise.all(transitionedBuilds
+		.map(async build => {
+			if (build.previousSourceVersion) {
+				if (buildResult.sourceBranch === 'refs/heads/remote-hackathon') {
+					build.authors = ['TBD', 'chrmarti'];
+				} else {
+					const repo = build.repository.split('/');
+					const cmp = await compareCommits(octokit, repo[0], repo[1], build.previousSourceVersion, build.sourceVersion);
+					const commits = cmp.data.commits;
+					const authors = new Set<string>([
+						...commits.map((c: any) => c.author.login),
+						...commits.map((c: any) => c.committer.login),
+					]);
+					authors.delete('web-flow'); // GitHub Web UI committer
+					build.authors = [...authors];
+				}
+				build.changesHtmlUrl = `https://github.com/${build.repository}/compare/${build.previousSourceVersion.substr(0, 7)}...${build.sourceVersion.substr(0, 7)}`; // Shorter than: cmp.data.html_url
+			}
+		}));
+	const vscode = buildResult.definition.name === 'VS Code';
+	const releaseBuild = monacotools && vscode;
+	const name = vscode ? `VS Code ${releaseBuild ? 'Release' : 'Continuous'} Build` : buildResult.definition.name;
+	const accounts = await readAccounts(options.storageConnectionString);
+	const githubAccountMap = githubToAccounts(accounts);
+	const vstsAccountMap = vstsToAccounts(accounts);
+	const messages = transitionedBuilds.map(build => {
+		return {
+			text: `${name}
+Result: ${build.result} | Branch: ${build.branch} | Requester: ${vstsToSlackUser(vstsAccountMap, build.requester, build.degraded)} | Authors: ${githubToSlackUsers(githubAccountMap, build.authors, build.degraded).sort().join(', ') || 'None (rebuild)'}
+[Build](${build.buildHtmlUrl}) | [Changes](${build.changesHtmlUrl})`,
+			slackAuthors: build.authors.map((a) => githubAccountMap[a]?.slack).filter((a) => !!a),
+		}
+	});
+	return { logMessages, messages };
+}
 
 function transitioned(newer: Build, older: Build) {
-	const newerResult = newer.data.conclusion || 'success'
-	const olderResult = older.data.conclusion || 'success'
-	if (newerResult === olderResult) {
-		return false
+	if (newer.result === older.result) {
+		return false;
 	}
-	if (conclusions.indexOf(newerResult) > conclusions.indexOf(olderResult)) {
-		newer.degraded = true
+	if (results.indexOf(newer.result) > results.indexOf(older.result)) {
+		newer.degraded = true;
 	}
-	return true
+	return true;
 }
 
 async function compareCommits(octokit: Octokit, owner: string, repo: string, base: string, head: string) {
@@ -268,6 +262,20 @@ async function compareCommits(octokit: Octokit, owner: string, repo: string, bas
 
 function githubToSlackUsers(githubToAccounts: Record<string, Accounts>, githubUsers: string[], at?: boolean) {
 	return githubUsers.map((g) => (githubToAccounts[g] ? `${at ? '@' : ''}${githubToAccounts[g].slack}` : g))
+}
+
+function vstsToAccounts(accounts: Accounts[]) {
+	return accounts.reduce((m, e) => {
+		m[e.vsts] = e;
+		return m;
+	}, <Record<string, Accounts>>{});
+}
+
+function vstsToSlackUser(vstsToAccounts: Record<string, Accounts>, vstsUser: User, at?: boolean) {
+	if (vstsUser.displayName === 'Microsoft.VisualStudio.Services.TFS' || vstsUser.displayName === 'GitHub') {
+		return 'Scheduled';
+	}
+	return vstsToAccounts[vstsUser.uniqueName] ? `${at ? '@' : ''}${vstsToAccounts[vstsUser.uniqueName].slack}` : vstsUser.uniqueName;
 }
 
 interface Accounts {
@@ -320,13 +328,4 @@ async function listAllMemberships(web: WebClient) {
 		channels.push(...groups.channels)
 	} while (groups.response_metadata?.next_cursor)
 	return channels.filter((c) => c.is_member)
-}
-
-interface Build {
-	data: Octokit.ActionsListWorkflowRunsResponseWorkflowRunsItem
-	previousSourceVersion: string | undefined
-	authors: string[]
-	buildHtmlUrl: string
-	changesHtmlUrl: string
-	degraded?: boolean
 }
