@@ -11,3 +11,4 @@ pr: none
 steps:
 - script: |
     echo HERE
+    exit 1
