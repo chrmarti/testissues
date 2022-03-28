@@ -26,6 +26,9 @@ steps:
       SecretsFilter: "monacotools-builds-user,monacotools-builds-token,slack-api-token,azure-storage-connection"
 
   - script: |
+      npm i
+
+  - script: |
       ado_user="$(monacotools-builds-user)" \
       ado_pass="$(monacotools-builds-token)" \
       slack_token="$(slack-api-token)" \
