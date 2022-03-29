@@ -19,7 +19,7 @@ steps:
       ado_pass="$(monacotools-builds-token)" \
       slack_token="$(slack-api-token)" \
       storage_connection_string="$(azure-storage-connection)" \
-      workflow_run_url="https://dev.azure.com/monacotools/$(TeamProject)/_apis/build/Builds/$(Build.BuildId)" \
+      workflow_run_url="https://dev.azure.com/monacotools/d4fdb7d5-58aa-48ac-aef5-4b593890a484/_apis/build/Builds/$(Build.BuildId)" \
       notify_authors="false" \
       notification_channel="bottest" \
       log_channel="bot-log" \
