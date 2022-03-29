@@ -168,7 +168,7 @@ interface Build {
 	finishTime: string;
 }
 
-const results = ['succeeded', 'partiallySucceeded', 'failed']
+const results = ['succeeded', 'partiallySucceeded', 'failed', 'none']
 
 async function buildComplete(octokit: Octokit, buildUrl: string, options: Options = {}) {
 	safeLog(`buildComplete: ${buildUrl}`);
@@ -179,13 +179,13 @@ async function buildComplete(octokit: Octokit, buildUrl: string, options: Option
 	if (!buildResult.sourceBranch || (
 		buildResult.sourceBranch !== 'refs/heads/main'
 		&& !buildResult.sourceBranch.startsWith('refs/heads/release/')
-		&& buildResult.sourceBranch !== 'refs/heads/remote-hackathon'
 	)) {
 		return { logMessages: [], messages: [] };
 	}
 	const buildQuery = `${buildsApiUrl}?$top=10&maxTime=${buildResult.finishTime}&definitions=${buildResult.definition.id}&branchName=${buildResult.sourceBranch}&resultFilter=${results.join(',')}&api-version=5.0-preview.4`;
 	const buildResults: ListOf<BuildResult> = await request({ uri: buildQuery, auth: options.adoAuth, json: true });
 	buildResults.value.sort((a, b) => -a.startTime.localeCompare(b.startTime)); // TODO: Retry using queryOrder parameter.
+	safeLog(JSON.stringify(buildResults.value.map(r => ({ id: r.id, result: r.result }))));
 	const currentBuildIndex = buildResults.value.findIndex(build => build.id === buildResult.id);
 	if (currentBuildIndex === -1) {
 		return { logMessages: [], messages: [] };
