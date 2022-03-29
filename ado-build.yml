@@ -23,6 +23,7 @@ stages:
   - stage: IM_Notification
     dependsOn:
       - Compile
+    condition: always()
     # pool: vscode-1es-linux
     jobs:
       - job: IM_Notification
