@@ -16,9 +16,10 @@ stages:
         steps:
           - script: |
               echo HERE
-              sleep 10
+              # sleep 10
               echo HERE2
-              # exit 1
+              echo $(Agent.JobStatus)
+              exit 1
   - stage: IM_Notification
     dependsOn:
       - Compile
