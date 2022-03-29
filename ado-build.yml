@@ -19,11 +19,11 @@ stages:
               sleep 10
               echo HERE2
               # exit 1
-  - stage: IM Notification
+  - stage: IM_Notification
     dependsOn:
       - Compile
     # pool: vscode-1es-linux
     jobs:
-      - job: IM Notification
+      - job: IM_Notification
         steps:
           - template: ado-build-chat.yml
