@@ -28,4 +28,7 @@ stages:
     jobs:
       - job: IM_Notification
         steps:
+          - script: |
+              echo $(Agent.JobStatus)
+              echo $(dependencies.Compile.result)
           - template: ado-build-chat.yml
