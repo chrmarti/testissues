@@ -8,7 +8,22 @@ trigger:
       - 'release/*'
 pr: none
 
-steps:
-- script: |
-    echo HERE
-    exit 1
+stages:
+  - stage: Compile
+    jobs:
+      - job: Compile
+        # pool: vscode-1es-linux
+        steps:
+          - script: |
+              echo HERE
+              sleep 10
+              echo HERE2
+              # exit 1
+  - stage: IM Notification
+    dependsOn:
+      - Compile
+    # pool: vscode-1es-linux
+    jobs:
+      - job: IM Notification
+        steps:
+          - template: build-chat.yml
