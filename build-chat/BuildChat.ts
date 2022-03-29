@@ -168,7 +168,7 @@ interface Build {
 	finishTime: string;
 }
 
-const results = ['succeeded', 'partiallySucceeded', 'failed', 'none']
+const results = ['succeeded', 'partiallySucceeded', 'failed']
 
 async function buildComplete(octokit: Octokit, buildUrl: string, options: Options = {}) {
 	safeLog(`buildComplete: ${buildUrl}`);
@@ -183,14 +183,16 @@ async function buildComplete(octokit: Octokit, buildUrl: string, options: Option
 		return { logMessages: [], messages: [] };
 	}
 	const buildQuery = `${buildsApiUrl}?$top=10&maxTime=${buildResult.finishTime}&definitions=${buildResult.definition.id}&branchName=${buildResult.sourceBranch}&resultFilter=${results.join(',')}&api-version=5.0-preview.4`;
-	const buildResults: ListOf<BuildResult> = await request({ uri: buildQuery, auth: options.adoAuth, json: true });
-	buildResults.value.sort((a, b) => -a.startTime.localeCompare(b.startTime)); // TODO: Retry using queryOrder parameter.
-	safeLog(JSON.stringify(buildResults.value.map(r => ({ id: r.id, result: r.result }))));
-	const currentBuildIndex = buildResults.value.findIndex(build => build.id === buildResult.id);
+	const buildResults = (await request({ uri: buildQuery, auth: options.adoAuth, json: true }) as ListOf<BuildResult>).value;
+	const currentBuildIndex = buildResults.findIndex(build => build.id === buildResult.id);
 	if (currentBuildIndex === -1) {
-		return { logMessages: [], messages: [] };
+		const currentBuild = await request({ uri: buildUrl, auth: options.adoAuth, json: true });
+		console.log(JSON.stringify(currentBuild));
+		buildResults.push(currentBuild);
 	}
-	const slicedResults = buildResults.value.slice(currentBuildIndex, currentBuildIndex + 2);
+	buildResults.sort((a, b) => -a.startTime.localeCompare(b.startTime)); // TODO: Retry using queryOrder parameter.
+	safeLog(JSON.stringify(buildResults.map(r => ({ id: r.id, result: r.result }))));
+	const slicedResults = buildResults.slice(currentBuildIndex, currentBuildIndex + 2);
 	const builds = slicedResults
 		.map<Build>((build, i, array) => ({
 			id: build.id,
