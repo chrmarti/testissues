@@ -26,4 +26,4 @@ stages:
     jobs:
       - job: IM Notification
         steps:
-          - template: build-chat.yml
+          - template: ado-build-chat.yml
