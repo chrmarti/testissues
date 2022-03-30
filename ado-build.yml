@@ -20,16 +20,22 @@ stages:
               echo HERE2
               echo $(Agent.JobStatus)
               exit 1
-  - stage: IM_Notification
+  - stage: IM_Notification_success
     dependsOn:
       - Compile
-    condition: always()
-    # pool: vscode-1es-linux
     jobs:
-      - job: IM_Notification
+      - job: IM_Notification_success
         steps:
           - script: |
-              echo "$(Agent.JobStatus)"
-              echo "${{ stageDependencies }}"
-              echo "${{ stageDependencies.Compile.Compile.result }}" # "Succeeded|SucceededWithIssues|Skipped|Failed|Canceled"
+              echo success
+          - template: ado-build-chat.yml
+  - stage: IM_Notification_failure
+    dependsOn:
+      - Compile
+    condition: failed()
+    jobs:
+      - job: IM_Notification_failure
+        steps:
+          - script: |
+              echo failure
           - template: ado-build-chat.yml
