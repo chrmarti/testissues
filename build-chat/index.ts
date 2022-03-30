@@ -34,6 +34,7 @@ export async function run() {
 		notificationChannel: getInput('notification_channel') || undefined,
 		logChannel: getInput('log_channel') || undefined,
 		consoleLog: getInput('console_log') === 'true',
+		currentBuildResult: getInput('current_build_result') || undefined,
 	})
 }
 

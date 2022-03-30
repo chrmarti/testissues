@@ -21,6 +21,7 @@ export interface Options {
 	notificationChannel?: string
 	logChannel?: string
 	consoleLog?: boolean;
+	currentBuildResult?: string;
 }
 
 interface UserOrChannel {
@@ -186,9 +187,16 @@ async function buildComplete(octokit: Octokit, buildUrl: string, options: Option
 	const buildResults = (await request({ uri: buildQuery, auth: options.adoAuth, json: true }) as ListOf<BuildResult>).value;
 	const currentBuildIndex = buildResults.findIndex(build => build.id === buildResult.id);
 	if (currentBuildIndex === -1) {
-		const currentBuild = await request({ uri: buildUrl, auth: options.adoAuth, json: true });
-		console.log(JSON.stringify(currentBuild));
-		buildResults.push(currentBuild);
+		const currentBuildResult = options.currentBuildResult;
+		if (currentBuildResult && results.indexOf(currentBuildResult) !== -1) {
+			const currentBuild: BuildResult = await request({ uri: buildUrl, auth: options.adoAuth, json: true });
+			console.log(JSON.stringify(currentBuild));
+			currentBuild.result = currentBuildResult;
+			buildResults.push(currentBuild);
+		} else {
+			safeLog(`Current build result unknown. (Passed in: ${currentBuildResult})`)
+			return { logMessages: [], messages: [] };
+		}
 	}
 	buildResults.sort((a, b) => -a.startTime.localeCompare(b.startTime)); // TODO: Retry using queryOrder parameter.
 	safeLog(JSON.stringify(buildResults.map(r => ({ id: r.id, result: r.result }))));

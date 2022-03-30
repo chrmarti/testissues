@@ -25,6 +25,8 @@ stages:
       - Compile
     jobs:
       - job: IM_Notification_success
+        variables:
+          current_build_result: succeeded
         steps:
           - script: |
               echo success
@@ -35,6 +37,8 @@ stages:
     condition: failed()
     jobs:
       - job: IM_Notification_failure
+        variables:
+          current_build_result: failed
         steps:
           - script: |
               echo failure
