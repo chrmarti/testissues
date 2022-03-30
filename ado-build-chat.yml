@@ -15,7 +15,7 @@ steps:
     displayName: NPM Install
 
   - script: |
-      echo current_build_result: $current_build_result
+      echo CURRENT_BUILD_RESULT: $CURRENT_BUILD_RESULT
       ado_user="$(monacotools-builds-user)" \
       ado_pass="$(monacotools-builds-token)" \
       slack_token="$(slack-api-token)" \

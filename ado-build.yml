@@ -26,7 +26,7 @@ stages:
     jobs:
       - job: IM_Notification_success
         variables:
-          current_build_result: succeeded
+          CURRENT_BUILD_RESULT: succeeded
         steps:
           - template: ado-build-chat.yml
   - stage: IM_Notification_failure
@@ -36,6 +36,6 @@ stages:
     jobs:
       - job: IM_Notification_failure
         variables:
-          current_build_result: failed
+          CURRENT_BUILD_RESULT: failed
         steps:
           - template: ado-build-chat.yml
