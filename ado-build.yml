@@ -28,8 +28,6 @@ stages:
         variables:
           current_build_result: succeeded
         steps:
-          - script: |
-              echo success
           - template: ado-build-chat.yml
   - stage: IM_Notification_failure
     dependsOn:
@@ -40,6 +38,4 @@ stages:
         variables:
           current_build_result: failed
         steps:
-          - script: |
-              echo failure
           - template: ado-build-chat.yml
