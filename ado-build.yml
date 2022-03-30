@@ -30,5 +30,5 @@ stages:
         steps:
           - script: |
               echo $(Agent.JobStatus)
-              echo $(stageDependencies.Compile.result)
+              echo $(stageDependencies.Compile.Compile.result)
           - template: ado-build-chat.yml
