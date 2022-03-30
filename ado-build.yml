@@ -29,6 +29,7 @@ stages:
       - job: IM_Notification
         steps:
           - script: |
-              echo $(Agent.JobStatus)
-              echo $(stageDependencies.Compile.Compile.result)
+              echo "$(Agent.JobStatus)"
+              echo "$(stageDependencies)"
+              echo "$(stageDependencies.Compile.Compile.result)" # "Succeeded|SucceededWithIssues|Skipped|Failed|Canceled"
           - template: ado-build-chat.yml
