@@ -15,7 +15,6 @@ steps:
     displayName: NPM Install
 
   - script: |
-      echo CURRENT_BUILD_RESULT: $CURRENT_BUILD_RESULT
       ado_user="$(monacotools-builds-user)" \
       ado_pass="$(monacotools-builds-token)" \
       slack_token="$(slack-api-token)" \
@@ -25,5 +24,6 @@ steps:
       notification_channel="bottest" \
       log_channel="bot-log" \
       console_log="true" \
+      current_build_result="$CURRENT_BUILD_RESULT" \
       ./node_modules/.bin/ts-node ./build-chat/index.ts
     displayName: Build Chat
