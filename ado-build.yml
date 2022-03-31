@@ -18,6 +18,12 @@ parameters:
     type: boolean
     default: false
 
+variables:
+  - name: VSCODE_PUBLISH
+    value: ${{ eq(parameters.VSCODE_PUBLISH, true) }}
+  - name: VSCODE_RELEASE
+    value: ${{ eq(parameters.VSCODE_RELEASE, true) }}
+
 stages:
   - stage: Compile
     jobs:
