@@ -249,7 +249,7 @@ async function buildComplete(octokit: Octokit, buildUrl: string, options: Option
 		return {
 			text: `${name}
 Result: ${build.result} | Branch: ${build.branch} | Requester: ${vstsToSlackUser(vstsAccountMap, build.requester, build.degraded)} | Authors: ${githubToSlackUsers(githubAccountMap, build.authors, build.degraded).sort().join(', ') || 'None (rebuild)'}
-[Build](${build.buildHtmlUrl}) | [Changes](${build.changesHtmlUrl})`,
+<${build.buildHtmlUrl}|Build> | <${build.changesHtmlUrl}|Changes>`,
 			slackAuthors: build.authors.map((a) => githubAccountMap[a]?.slack).filter((a) => !!a),
 		}
 	});
