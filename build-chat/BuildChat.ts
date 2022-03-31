@@ -127,7 +127,7 @@ interface BuildResult {
 	result: string;
 	queueTime: string;
 	startTime: string;
-	finishTime: string;
+	finishTime?: string;
 	sourceBranch: string;
 	sourceVersion: string;
 	repository: {
@@ -166,7 +166,7 @@ interface Build {
 	changesHtmlUrl: string;
 	queueTime: string;
 	startTime: string;
-	finishTime: string;
+	finishTime?: string;
 }
 
 const results = ['succeeded', 'partiallySucceeded', 'failed']
@@ -183,14 +183,15 @@ async function buildComplete(octokit: Octokit, buildUrl: string, options: Option
 	)) {
 		return { logMessages: [], messages: [] };
 	}
-	const buildQuery = `${buildsApiUrl}?$top=10&maxTime=${buildResult.finishTime}&definitions=${buildResult.definition.id}&branchName=${buildResult.sourceBranch}&resultFilter=${results.join(',')}&api-version=5.0-preview.4`;
+	const buildQuery = `${buildsApiUrl}?$top=10${buildResult.finishTime ? `&maxTime=${buildResult.finishTime}` : ''}&definitions=${buildResult.definition.id}&branchName=${buildResult.sourceBranch}&resultFilter=${results.join(',')}&api-version=5.0-preview.4`;
 	const buildResults = (await request({ uri: buildQuery, auth: options.adoAuth, json: true }) as ListOf<BuildResult>).value;
 	if (!buildResults.find(build => build.id === buildResult.id)) {
 		const currentBuildResult = options.currentBuildResult;
 		if (currentBuildResult && results.indexOf(currentBuildResult) !== -1) {
-			const currentBuild: BuildResult = await request({ uri: buildUrl, auth: options.adoAuth, json: true });
-			console.log(JSON.stringify(currentBuild));
-			currentBuild.result = currentBuildResult;
+			const currentBuild = {
+				...buildResult,
+				result: currentBuildResult,
+			};
 			buildResults.push(currentBuild);
 		} else {
 			safeLog(`Current build result unknown. (Passed in: ${currentBuildResult})`)
@@ -198,7 +199,6 @@ async function buildComplete(octokit: Octokit, buildUrl: string, options: Option
 		}
 	}
 	buildResults.sort((a, b) => -a.startTime.localeCompare(b.startTime)); // TODO: Retry using queryOrder parameter.
-	safeLog(JSON.stringify(buildResults.map(r => ({ id: r.id, result: r.result }))));
 	const currentBuildIndex = buildResults.findIndex(build => build.id === buildResult.id);
 	const slicedResults = buildResults.slice(currentBuildIndex, currentBuildIndex + 2);
 	const builds = slicedResults
@@ -218,7 +218,7 @@ async function buildComplete(octokit: Octokit, buildUrl: string, options: Option
 			finishTime: build.finishTime,
 		}));
 	const logMessages = builds.slice(0, 1)
-		.map(build => `Id: ${build.id} | Branch: ${build.branch} | Result: ${build.result} | Queue: ${build.queueTime} | Start: ${build.startTime} | Finish: ${build.finishTime}`);
+		.map(build => `Id: ${build.id} | Branch: ${build.branch} | Result: ${build.result} | Queue: ${build.queueTime} | Start: ${build.startTime} | Finish: ${build.finishTime || '-'}`);
 	const transitionedBuilds = builds.filter((build, i, array) => i < array.length - 1 && transitioned(build, array[i + 1]));
 	await Promise.all(transitionedBuilds
 		.map(async build => {
