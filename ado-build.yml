@@ -31,63 +31,65 @@ stages:
         steps:
           - script: |
               echo Compile
-  - stage: Windows
-    dependsOn:
-      - Compile
-    jobs:
-      - job: Windows
-        steps:
-          - script: |
-              echo Windows
-  - stage: LinuxServerDependencies
-    jobs:
-      - job: LinuxServerDependencies
-        steps:
-          - script: |
-              echo LinuxServerDependencies
-  - stage: Linux
-    dependsOn:
-      - Compile
-      - LinuxServerDependencies
-    jobs:
-      - job: Linux
-        steps:
-          - script: |
-              echo Linux
-  - stage: macOS
-    dependsOn:
-      - Compile
-    jobs:
-      - job: macOS
-        steps:
-          - script: |
-              echo macOS
-  - ${{ if eq(variables['VSCODE_PUBLISH'], 'true') }}:
-      - stage: Publish
-        dependsOn:
-          - Compile
-        jobs:
-          - job: Publish
-            steps:
-              - script: |
-                  echo Publish
-  - ${{ if eq(variables['VSCODE_RELEASE'], 'true') }}:
-      - stage: Release
-        dependsOn:
-          - Publish
-        jobs:
-          - job: Release
-            steps:
-              - script: |
-                  echo Release
+              exit 1
+  # - stage: Windows
+  #   dependsOn:
+  #     - Compile
+  #   jobs:
+  #     - job: Windows
+  #       steps:
+  #         - script: |
+  #             echo Windows
+  # - stage: LinuxServerDependencies
+  #   jobs:
+  #     - job: LinuxServerDependencies
+  #       steps:
+  #         - script: |
+  #             echo LinuxServerDependencies
+  # - stage: Linux
+  #   dependsOn:
+  #     - Compile
+  #     - LinuxServerDependencies
+  #   jobs:
+  #     - job: Linux
+  #       steps:
+  #         - script: |
+  #             echo Linux
+  # - stage: macOS
+  #   dependsOn:
+  #     - Compile
+  #   jobs:
+  #     - job: macOS
+  #       steps:
+  #         - script: |
+  #             echo macOS
+  # - ${{ if eq(variables['VSCODE_PUBLISH'], 'true') }}:
+  #     - stage: Publish
+  #       dependsOn:
+  #         - Compile
+  #       jobs:
+  #         - job: Publish
+  #           steps:
+  #             - script: |
+  #                 echo Publish
+  # - ${{ if eq(variables['VSCODE_RELEASE'], 'true') }}:
+  #     - stage: Release
+  #       dependsOn:
+  #         - Publish
+  #       jobs:
+  #         - job: Release
+  #           steps:
+  #             - script: |
+  #                 echo Release
   - stage: IM_Notification_success
+    displayName: IM Notification success
     dependsOn:
       - Compile
-      - Windows
-      - Linux
-      - macOS
-      - Publish
-      - Release
+      # - Windows
+      # - Linux
+      # - macOS
+      # - Publish
+      # - Release
     jobs:
       - job: IM_Notification_success
         variables:
@@ -95,13 +97,14 @@ stages:
         steps:
           - template: ado-build-chat.yml
   - stage: IM_Notification_failure
+    displayName: IM Notification failure
     dependsOn:
       - Compile
-      - Windows
-      - Linux
-      - macOS
-      - Publish
-      - Release
+      # - Windows
+      # - Linux
+      # - macOS
+      # - Publish
+      # - Release
     condition: failed()
     jobs:
       - job: IM_Notification_failure
