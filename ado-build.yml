@@ -8,6 +8,16 @@ trigger:
       - 'release/*'
 pr: none
 
+parameters:
+  - name: VSCODE_PUBLISH
+    displayName: "Publish to builds.code.visualstudio.com"
+    type: boolean
+    default: true
+  - name: VSCODE_RELEASE
+    displayName: "Release build if successful"
+    type: boolean
+    default: false
+
 stages:
   - stage: Compile
     jobs:
@@ -46,7 +56,7 @@ stages:
         steps:
           - script: |
               echo macOS
-  - ${{ if eq(variables['PUBLISH'], 'true') }}:
+  - ${{ if eq(variables['VSCODE_PUBLISH'], 'true') }}:
       - stage: Publish
         dependsOn:
           - Compile
@@ -55,7 +65,7 @@ stages:
             steps:
               - script: |
                   echo Publish
-  - ${{ if eq(variables['RELEASE'], 'true') }}:
+  - ${{ if eq(variables['VSCODE_RELEASE'], 'true') }}:
       - stage: Release
         dependsOn:
           - Publish
