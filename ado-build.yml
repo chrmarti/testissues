@@ -12,17 +12,66 @@ stages:
   - stage: Compile
     jobs:
       - job: Compile
-        # pool: vscode-1es-linux
         steps:
           - script: |
-              echo HERE
-              # sleep 10
-              echo HERE2
-              echo $(Agent.JobStatus)
-              exit 1
+              echo Compile
+  - stage: Windows
+    dependsOn:
+      - Compile
+    jobs:
+      - job: Windows
+        steps:
+          - script: |
+              echo Windows
+  - stage: LinuxServerDependencies
+    jobs:
+      - job: LinuxServerDependencies
+        steps:
+          - script: |
+              echo LinuxServerDependencies
+  - stage: Linux
+    dependsOn:
+      - Compile
+      - LinuxServerDependencies
+    jobs:
+      - job: Linux
+        steps:
+          - script: |
+              echo Linux
+  - stage: macOS
+    dependsOn:
+      - Compile
+    jobs:
+      - job: macOS
+        steps:
+          - script: |
+              echo macOS
+  - ${{ if eq(variables['PUBLISH'], 'true') }}:
+      - stage: Publish
+        dependsOn:
+          - Compile
+        jobs:
+          - job: Publish
+            steps:
+              - script: |
+                  echo Publish
+  - ${{ if eq(variables['RELEASE'], 'true') }}:
+      - stage: Release
+        dependsOn:
+          - Publish
+        jobs:
+          - job: Release
+            steps:
+              - script: |
+                  echo Release
   - stage: IM_Notification_success
     dependsOn:
       - Compile
+      - Windows
+      - Linux
+      - macOS
+      - Publish
+      - Release
     jobs:
       - job: IM_Notification_success
         variables:
@@ -32,6 +81,11 @@ stages:
   - stage: IM_Notification_failure
     dependsOn:
       - Compile
+      - Windows
+      - Linux
+      - macOS
+      - Publish
+      - Release
     condition: failed()
     jobs:
       - job: IM_Notification_failure
