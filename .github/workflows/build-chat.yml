@@ -17,3 +17,4 @@ jobs:
           workflow_run_url: ${{ github.event.client_payload.workflow_run_url }}
           notify_authors: true
           log_channel: bot-log
+          console_log: true

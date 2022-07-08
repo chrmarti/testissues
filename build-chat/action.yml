@@ -6,6 +6,12 @@ inputs:
     description: GitHub token.
     default: ${{ github.token }}
     required: true
+  ado_user:
+    description: AzDO user.
+    required: true
+  ado_pass:
+    description: AzDO password.
+    required: true
   slack_token:
     description: Slack token.
     required: true
@@ -23,6 +29,9 @@ inputs:
     required: false
   log_channel:
     description: 'Which channel to send log messages to. Defaults to none.'
+    required: false
+  console_log:
+    description: 'Whether the notifications should be logged to the console. Defaults to false.'
     required: false
 runs:
   using: 'node12'

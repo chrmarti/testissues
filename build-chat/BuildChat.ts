@@ -186,7 +186,7 @@ async function buildComplete(octokit: Octokit, buildUrl: string, options: Option
 	const buildQuery = `${buildsApiUrl}?$top=10${buildResult.finishTime ? `&maxTime=${buildResult.finishTime}` : ''}&definitions=${buildResult.definition.id}&branchName=${buildResult.sourceBranch}&resultFilter=${results.join(',')}&api-version=5.0-preview.4`;
 	const buildResults = (await request({ uri: buildQuery, auth: options.adoAuth, json: true }) as ListOf<BuildResult>).value;
 	if (!buildResults.find(build => build.id === buildResult.id)) {
-		const currentBuildResult = options.currentBuildResult;
+		const currentBuildResult = options.currentBuildResult; // Needed when the current build is still in progress.
 		if (currentBuildResult && results.indexOf(currentBuildResult) !== -1) {
 			const currentBuild = {
 				...buildResult,
