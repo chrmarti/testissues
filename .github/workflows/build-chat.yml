@@ -1,0 +1,19 @@
+on: [repository_dispatch]
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Actions
+        run: npm install --production
+      - name: Build Chat
+        uses: ./build-chat
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ado_user: ${{ secrets.ADO_USER }}
+          ado_pass: ${{ secrets.ADO_PASS }}
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          storage_connection_string: ${{ secrets.BUILD_CHAT_STORAGE_CONNECTION_STRING }}
+          workflow_run_url: ${{ github.event.client_payload.workflow_run_url }}
+          notify_authors: true
+          log_channel: bot-log
