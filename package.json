@@ -19,7 +19,7 @@
   "homepage": "https://github.com/chrmarti/testissues#readme",
   "dependencies": {
     "@actions/github": "^2.1.1",
-    "@azure/storage-blob": "^12.1.1",
+    "@azure/storage-blob": "^12.13.0",
     "@slack/web-api": "^6.0.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.2"
