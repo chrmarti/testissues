@@ -9,7 +9,7 @@ jobs:
   stuff:
     runs-on: ubuntu-latest
     steps:
-    - run: echo hello > world.txt
+    - run: echo hello > world.txt && date >> world.txt
     - uses: actions/upload-artifact@v4
       with:
         name: my-artifact

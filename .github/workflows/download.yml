@@ -14,4 +14,4 @@ jobs:
         commit: ${{ github.sha }}
         name: my-artifact
         path: .
-    - run: ls -l
+    - run: ls -l && cat world.txt
