@@ -7,7 +7,7 @@ jobs:
   stuff:
     runs-on: ubuntu-latest
     steps:
-    - uses: dawidd6/action-download-artifact@6f8f427fb41886a66b82ea11a5a15d1454c79415
+    - uses: dawidd6/action-download-artifact@09f2f74827fd3a8607589e5ad7f9398816f540fe
       with:
         workflow: upload.yml
         workflow_conclusion: success
