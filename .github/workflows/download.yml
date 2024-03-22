@@ -1,0 +1,17 @@
+name: Test Download
+
+on:
+  workflow_dispatch:
+
+jobs:
+  stuff:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: dawidd6/action-download-artifact@6f8f427fb41886a66b82ea11a5a15d1454c79415
+      with:
+        workflow: upload.yml
+        workflow_conclusion: success
+        commit: ${{ github.sha }}
+        name: my-artifact
+        path: .
+    - run: ls -l
