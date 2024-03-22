@@ -3,9 +3,6 @@ name: Test Download
 on:
   workflow_dispatch:
 
-permissions:
-  actions: read
-
 jobs:
   stuff:
     runs-on: ubuntu-latest
