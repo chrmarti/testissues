@@ -1,8 +1,6 @@
 name: Mirror Dev Container Features
 
 on:
-  schedule:
-    - cron: '0 4 * * *'  # Daily at 4 AM UTC
   workflow_dispatch:
 
 jobs:
