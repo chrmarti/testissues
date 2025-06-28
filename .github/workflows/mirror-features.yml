@@ -16,7 +16,11 @@ jobs:
     steps:
       - name: Install ORAS
         run: |
-          curl -sL https://github.com/oras-project/oras/releases/latest/download/oras_$(uname -s)_$(uname -m).tar.gz | tar -xz
+          ORAS_VERSION=$(curl -s https://api.github.com/repos/oras-project/oras/releases/latest | jq -r '.tag_name')
+          ORAS_TARBALL="oras_${ORAS_VERSION#v}_$(uname -s)_$(uname -m).tar.gz"
+
+          curl -sL "https://github.com/oras-project/oras/releases/download/${ORAS_VERSION}/${ORAS_TARBALL}" -o oras.tar.gz
+          tar -xzf oras.tar.gz oras
           sudo mv oras /usr/local/bin/
 
       - name: Get tags for ${{ matrix.feature }}
