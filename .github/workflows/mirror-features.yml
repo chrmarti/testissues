@@ -19,6 +19,7 @@ jobs:
           ORAS_VERSION=$(curl -s https://api.github.com/repos/oras-project/oras/releases/latest | jq -r '.tag_name')
           ORAS_TARBALL="oras_${ORAS_VERSION#v}_$(uname -s)_$(uname -m).tar.gz"
 
+          echo "https://github.com/oras-project/oras/releases/download/${ORAS_VERSION}/${ORAS_TARBALL}"
           curl -sL "https://github.com/oras-project/oras/releases/download/${ORAS_VERSION}/${ORAS_TARBALL}" -o oras.tar.gz
           tar -xzf oras.tar.gz oras
           sudo mv oras /usr/local/bin/
