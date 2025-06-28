@@ -1,0 +1,40 @@
+name: Mirror Dev Container Features
+
+on:
+  schedule:
+    - cron: '0 4 * * *'  # Daily at 4 AM UTC
+  workflow_dispatch:
+
+jobs:
+  mirror-feature:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        feature: [poetry, ruff, pnpm]
+
+    permissions:
+      packages: write  # Allow pushing to ghcr.io/chrmarti
+
+    steps:
+      - name: Install ORAS
+        run: |
+          curl -sL https://github.com/oras-project/oras/releases/latest/download/oras_$(uname -s)_$(uname -m).tar.gz | tar -xz
+          sudo mv oras /usr/local/bin/
+
+      - name: Get tags for ${{ matrix.feature }}
+        id: tags
+        run: |
+          curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://ghcr.io/v2/devcontainers-extra/features/${{ matrix.feature }}/tags/list |
+            jq -r '.tags[]' > tags.txt
+
+      - name: Mirror tags to chrmarti
+        run: |
+          while read tag; do
+            echo "Copying tag: $tag for feature: ${{ matrix.feature }}"
+            oras copy \
+              ghcr.io/devcontainers-extra/features/${{ matrix.feature }}:$tag \
+              ghcr.io/chrmarti/testissues/${{ matrix.feature }}:$tag \
+              --src-creds "${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}" \
+              --dest-creds "${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}"
+          done < tags.txt
