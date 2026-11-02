@@ -1,0 +1,10 @@
+name: Delay
+
+on:
+  workflow_dispatch:
+
+jobs:
+  delay:
+    runs-on: ubuntu-latest
+    steps:
+      - run: sleep 1
