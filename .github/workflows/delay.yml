@@ -8,4 +8,4 @@ jobs:
   delay:
     runs-on: ubuntu-latest
     steps:
-      - run: sleep 1
+      - run: sleep 10
